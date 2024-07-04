@@ -1,6 +1,7 @@
 describe("env", function()
-  local t, env
+  local meta, t, env
   setup(function()
+    meta = require "meta"
     t = require "t"
     env = t.env
   end)
@@ -14,5 +15,8 @@ describe("env", function()
     assert.is_nil(rawget(env, 'NONEEXISTENT'))
     env.NONEEXISTENT = nil
     assert.is_nil(env.NONEEXISTENT)
+  end)
+  it("is.typed", function()
+    assert.is_string(t.is.typed(t.env))
   end)
 end)
