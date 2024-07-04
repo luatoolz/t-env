@@ -1,7 +1,6 @@
 describe("env", function()
-  local meta, t, env
+  local t, env
   setup(function()
-    meta = require "meta"
     t = require "t"
     env = t.env
   end)
