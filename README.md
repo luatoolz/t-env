@@ -6,7 +6,7 @@ local env = t.env
 
 To get env:
 ```lua
-print(env.SHELL)
+print(env.PATH)
 ```
 
 To set default value for undefined env (does not set real env var):
