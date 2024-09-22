@@ -1,4 +1,4 @@
-local t = require "t"
+local t = t or require "t"
 local ok = function(k) return type(k)=='string' and #k>0 end
 local default, fallback = {}, {}
 
