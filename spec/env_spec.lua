@@ -3,6 +3,7 @@ describe("env", function()
   setup(function()
     t = require "t"
     env = t.env
+    t.env.MONGO_PASS='some_pass'
   end)
   it("PATH", function()
     assert.is_string(env.PATH)
@@ -25,5 +26,41 @@ describe("env", function()
   end)
   it("is.type", function()
     assert.type('env', t.env)
+  end)
+  it("module setup with strings", function()
+    env.mongo = {
+      host = 'mongodb',
+      port = true,
+      db   = 'db',
+      user = true,
+      pass = true,
+      xport = '27017',
+    }
+    assert.same({
+      db = 'db',
+      host = 'mongodb',
+      port = '27017',
+      user = 'semiuser',
+      pass = 'some_pass',
+      xport = '27017',
+    }, env.mongo)
+  end)
+  it("module setup with numbers", function()
+    env.mongo = {
+      host = 'mongodb',
+      port = true,
+      db   = 'db',
+      user = true,
+      pass = true,
+      xport = 27017,
+    }
+    assert.same({
+      db = 'db',
+      host = 'mongodb',
+      port = '27017',
+      user = 'semiuser',
+      pass = 'some_pass',
+      xport = 27017,
+    }, env.mongo)
   end)
 end)

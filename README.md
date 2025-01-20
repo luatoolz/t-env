@@ -14,6 +14,21 @@ env({                         -- set module fallback defaults
   MY_DB   = 'test',
 })
 
+env.mongo = {                 -- use lowercase
+  host = 'mongodb',           -- setting app fallback
+  port = '27017',             -- numbers ok too but first found preferred
+  user = true,                -- set keys without defaults to true
+  pass = true,
+}
+
+local mongo_opts = env.mongo  -- got smallcased table with env vars
+mongo_opts == {               -- ready to pass args
+  host = 'varhost',
+  port = '27017',
+  user = 'gooduser',
+  pass = 'goodpass',
+}
+
 _ = env - 'MY_APP'            -- remove app fallback
 _ = env - {'MY_APP', 'MY_DB'} -- remove bulk
 ```
