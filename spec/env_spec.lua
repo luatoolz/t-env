@@ -3,7 +3,7 @@ describe("env", function()
   setup(function()
     t = require "t"
     env = t.env
-    t.env.MONGO_PASS='some_pass'
+    env.mongo = nil
   end)
   it("PATH", function()
     assert.is_string(env.PATH)
@@ -28,39 +28,55 @@ describe("env", function()
     assert.type('env', t.env)
   end)
   it("module setup with strings", function()
-    env.mongo = {
+    assert.is_nil(env.MONGO_HOST)
+    assert.is_nil(env.MONGO_PASS)
+    env.MONGO_PASS='some_pass'
+    assert.equal('some_pass', env.MONGO_PASS)
+    local options = {
       host = 'mongodb',
-      port = true,
+      port = '27017',
       db   = 'db',
       user = true,
       pass = true,
-      xport = '27017',
     }
+    env.mongo = options
     assert.same({
-      db = 'db',
       host = 'mongodb',
       port = '27017',
+      db   = 'db',
       user = 'semiuser',
       pass = 'some_pass',
-      xport = '27017',
     }, env.mongo)
+    assert.not_equal(options, env.mongo)
+    assert.same({
+      host = 'mongodb',
+      port = '27017',
+      db   = 'db',
+      user = 'semiuser',
+      pass = 'some_pass',
+    }, env.mongo)
+    assert.equal('mongodb', env.MONGO_HOST)
+    assert.equal('27017', env.MONGO_PORT)
+    env.mongo = nil
+    env.MONGO_PASS=nil
   end)
   it("module setup with numbers", function()
+    assert.is_nil(env.MONGO_HOST)
     env.mongo = {
       host = 'mongodb',
-      port = true,
+      port = 27017,
       db   = 'db',
       user = true,
       pass = true,
-      xport = 27017,
     }
     assert.same({
       db = 'db',
       host = 'mongodb',
-      port = '27017',
+      port = 27017,
       user = 'semiuser',
-      pass = 'some_pass',
-      xport = 27017,
     }, env.mongo)
+    assert.equal('mongodb', env.MONGO_HOST)
+    assert.equal(27017, env.MONGO_PORT)
+    env.mongo = nil
   end)
 end)
