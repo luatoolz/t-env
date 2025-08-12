@@ -1,9 +1,9 @@
 describe("env", function()
   local t, env
   setup(function()
-    t = require "t"
+    t = require 't'
     env = t.env
-    env.mongo = nil
+--    env.test = nil
   end)
   it("PATH", function()
     assert.is_string(env.PATH)
@@ -28,42 +28,43 @@ describe("env", function()
     assert.type('env', t.env)
   end)
   it("module setup with strings", function()
-    assert.is_nil(env.MONGO_HOST)
-    assert.is_nil(env.MONGO_PASS)
-    env.MONGO_PASS='some_pass'
-    assert.equal('some_pass', env.MONGO_PASS)
+    assert.is_nil(env.TEST_HOST)
+    assert.is_nil(env.TEST_PASS)
+    env.TEST_PASS='some_pass'
+    env.TEST_USER='semiuser'
+    assert.equal('some_pass', env.TEST_PASS)
     local options = {
-      host = 'mongodb',
+      host = 'testdb',
       port = '27017',
       db   = 'db',
       user = true,
       pass = true,
     }
-    env.mongo = options
+    env.test = options
     assert.same({
-      host = 'mongodb',
+      host = 'testdb',
       port = '27017',
       db   = 'db',
       user = 'semiuser',
       pass = 'some_pass',
-    }, env.mongo)
-    assert.not_equal(options, env.mongo)
+    }, env.test)
+    assert.not_equal(options, env.test)
     assert.same({
-      host = 'mongodb',
+      host = 'testdb',
       port = '27017',
       db   = 'db',
       user = 'semiuser',
       pass = 'some_pass',
-    }, env.mongo)
-    assert.equal('mongodb', env.MONGO_HOST)
-    assert.equal('27017', env.MONGO_PORT)
-    env.mongo = nil
-    env.MONGO_PASS=nil
+    }, env.test)
+    assert.equal('testdb', env.TEST_HOST)
+    assert.equal('27017', env.TEST_PORT)
+    env.test = nil
+    env.TEST_PASS=nil
   end)
   it("module setup with numbers", function()
-    assert.is_nil(env.MONGO_HOST)
-    env.mongo = {
-      host = 'mongodb',
+    assert.is_nil(env.TEST_HOST)
+    env.test = {
+      host = 'testdb',
       port = 27017,
       db   = 'db',
       user = true,
@@ -71,12 +72,17 @@ describe("env", function()
     }
     assert.same({
       db = 'db',
-      host = 'mongodb',
+      host = 'testdb',
       port = 27017,
       user = 'semiuser',
-    }, env.mongo)
-    assert.equal('mongodb', env.MONGO_HOST)
-    assert.equal(27017, env.MONGO_PORT)
-    env.mongo = nil
+    }, env.test)
+    assert.equal('testdb', env.TEST_HOST)
+    assert.equal(27017, env.TEST_PORT)
+    env.test = nil
   end)
+--  it("load from files", function()
+--    local iter = t.iter
+--    assert.equal('', t.env.one)
+--    assert.equal('', iter.map(env,tostring))
+--  end)
 end)

@@ -20,7 +20,7 @@ jobs:
       DEV: --dev
       SYSDEPS:
       ROCKSPEC: ${{ github.event.repository.name }}-scm-0.rockspec
-      MONGO_USER: semiuser
+      TEST_USER: semiuser
     steps:
     - uses: actions/checkout@master
     - name: system dependencies
